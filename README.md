@@ -1,7 +1,7 @@
 # screeps
 Screeps scripts
 
-## Useful Links
+## Links
 https://docs.screeps.com/api/
 
 
