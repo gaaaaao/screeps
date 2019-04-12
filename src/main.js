@@ -31,7 +31,7 @@ module.exports.loop = function () {
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     if (Game.time % 10 == 0)
         console.log('Builders: ' + builders.length);
-    if (builders.length * 4 < harvesters.length && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
+    if (harvesters.length == Math.floor(MAX_HARS * 0.8) && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
         var newName = 'Bul' + Game.time;
         console.log('Spawning new builder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(WORK, CARRY, MOVE), newName, { memory: { role: 'builder' } });
@@ -40,7 +40,7 @@ module.exports.loop = function () {
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     if (Game.time % 10 == 0)
         console.log('Upgrader: ' + upgraders.length);
-    if (upgraders.length * 4 < harvesters.length && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
+    if (harvesters.length == Math.floor(MAX_HARS * 0.8) && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
         var newName = 'Upg' + Game.time;
         console.log('Spawning new upgrader: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(WORK, CARRY, MOVE), newName, { memory: { role: 'upgrader' } });
@@ -49,7 +49,7 @@ module.exports.loop = function () {
     var healers = _.filter(Game.creeps, (creep) => creep.memory.role == 'healer');
     if (Game.time % 10 == 0)
         console.log('Healer: ' + healers.length);
-    if (healers.length * 4 < harvesters.length && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
+    if (harvesters.length == Math.floor(MAX_HARS * 0.8) && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
         var newName = 'Hel' + Game.time;
         console.log('Spawning new healer: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(WORK, CARRY, MOVE), newName, { memory: { role: 'healer' } });
