@@ -13,7 +13,7 @@ var roleBuilder = {
         var cur_action = creep.memory.action;
         var cur_energy = creep.carry.energy;
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-        if (cur_action != ACTION_WITHDRAW && cur_energy == 0 && harvesters.length > 3) {
+        if (cur_action != ACTION_WITHDRAW && cur_energy == 0 && harvesters.length > 3 && creep.room.energyAvailable > creep.room.energyCapacityAvailable / 2) {
             creep.memory.action = ACTION_WITHDRAW;
             creep.say('🔄 Withdraw');
         }

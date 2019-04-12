@@ -14,7 +14,6 @@ var roleHarvester = {
     // ACTION: 
     // 
     run: function (creep) {
-
         // Action selection
         var cur_action = creep.memory.action;
         var cur_energy = creep.carry.energy;
