@@ -1,8 +1,8 @@
 var settings = require("settings");
 /// <reference path=`${settings.PROJECT_DIR}/ScreepsAutocomplete/.d.ts`/>
 
-var ACTION_WITHDRAW = 0;
-var ACTION_HEALER = 1;
+var ACTION_WITHDRAW = 1;
+var ACTION_HEALER = 2;
 
 var roleHealer = {
 
@@ -19,21 +19,19 @@ var roleHealer = {
         }
         else if (cur_action == ACTION_WITHDRAW && cur_energy == creep.carryCapacity) {
             creep.memory.action = ACTION_HEALER;
-            creep.say('🚧 build');
+            creep.say('🚧 heal');
         }
 
         if (creep.memory.action == ACTION_HEALER) {
             var targets = creep.room.find(FIND_STRUCTURES, {
-                /** @param {Structure} structure **/
-                // ACTION: 
-                // 
                 filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax)
+                    return (structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax && structure.hits < creep.room.energyCapacityAvailable)
                 }
             });
             if (targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE)
+                if(creep.heal(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+                }
             }
         }
         else if(creep.memory.action == ACTION_WITHDRAW){

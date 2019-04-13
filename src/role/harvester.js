@@ -1,12 +1,10 @@
-var settings = require("settings");
-/// <reference path=`${settings.PROJECT_DIR}/ScreepsAutocomplete/.d.ts`/>
+/// <reference path="../../ScreepsAutocomplete/.d.ts"/>
 
 var utils = require('utils');
 
-var ACTION_MOVING = -1
-var ACTION_HARVEST = 0
-var ACTION_UPGRADE = 1
-var ACTION_TRANSFER = 2
+var ACTION_HARVEST = 1;
+var ACTION_UPGRADE = 2;
+var ACTION_TRANSFER = 3;
 
 var roleHarvester = {
 
@@ -19,11 +17,16 @@ var roleHarvester = {
         var cur_energy = creep.carry.energy;
         var fill_able_list = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.structureType == STRUCTURE_EXTENSION ||
-                    structure.structureType == STRUCTURE_SPAWN ||
-                    structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                if((structure.structureType == structure.structureType == STRUCTURE_EXTENSION
+                || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity) {
+                    return true;
+                } else if(structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < 100000) {
+                    return true;
+                }
+                return false;
             }
         });
+
         if ((cur_action == ACTION_HARVEST && cur_energy != creep.carryCapacity) ||
             (cur_action != ACTION_HARVEST && cur_energy == 0)) {
             if (cur_action != ACTION_HARVEST) {
@@ -63,8 +66,8 @@ var roleHarvester = {
             var targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_EXTENSION ||
-                        structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_CONTAINER
-                        //  || structure.structureType == STRUCTURE_TOWER
+                        structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_STORAGE
+                         || structure.structureType == STRUCTURE_TOWER
                          ) && structure.energy < structure.energyCapacity;
                 }
             });
