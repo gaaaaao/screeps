@@ -1,8 +1,8 @@
 var settings = require("settings");
 /// <reference path=`${settings.PROJECT_DIR}/ScreepsAutocomplete/.d.ts`/>
 
-var ACTION_WITHDRAW = 1;
-var ACTION_BUILD = 2;
+const {ACTION_WITHDRAW} = require('settings');
+const {ACTION_BUILD} = require('settings');
 
 var roleBuilder = {
 

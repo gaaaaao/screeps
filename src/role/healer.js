@@ -1,8 +1,8 @@
 var settings = require("settings");
 /// <reference path=`${settings.PROJECT_DIR}/ScreepsAutocomplete/.d.ts`/>
 
-var ACTION_WITHDRAW = 1;
-var ACTION_HEALER = 2;
+const {ACTION_WITHDRAW} = require('settings');
+const {ACTION_HEAL} = require('settings');
 
 var roleHealer = {
 
@@ -18,11 +18,11 @@ var roleHealer = {
             creep.say('🔄 Withdraw');
         }
         else if (cur_action == ACTION_WITHDRAW && cur_energy == creep.carryCapacity) {
-            creep.memory.action = ACTION_HEALER;
+            creep.memory.action = ACTION_HEAL;
             creep.say('🚧 heal');
         }
 
-        if (creep.memory.action == ACTION_HEALER) {
+        if (creep.memory.action == ACTION_HEAL) {
             var targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax && structure.hits < creep.room.energyCapacityAvailable)

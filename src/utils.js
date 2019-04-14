@@ -62,6 +62,9 @@ var utils = {
             }
         }
         return res;
+    },
+    energy_cap: function(creep) {
+        return creep.room.energyCapacityAvailable * 10;
     }
 }
 

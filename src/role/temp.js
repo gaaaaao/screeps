@@ -1,8 +1,10 @@
 /// <reference path="../../ScreepsAutocomplete/.d.ts"/>
 
-var ACTION_PICK = 1
-var ACTION_TRANSFER = 3;
+const { ACTION_TRANSFER } = require('settings');
+const { ACTION_PICK } = require('settings');
+const { ACTION_WITHDRAW } = require('settings');
 
+var { energy_cap } = require('utils');
 var roleTemp = {
 
     /** @param {Creep} creep **/
@@ -11,43 +13,67 @@ var roleTemp = {
     run: function (creep) {
         var cur_action = creep.memory.action;
         var cur_energy = creep.carry.energy;
-        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-        if (cur_action != ACTION_PICK && cur_energy == 0) {
+        var creep_cap = creep.carryCapacity;
+        var spawn_full = creep.room.energyAvailable == creep.room.energyCapacityAvailable;
+        var stored_energy = creep.room.storage.store[RESOURCE_ENERGY];
+        var energy_total = energy_cap(creep);
+        var pick_targets = creep.room.find(FIND_DROPPED_RESOURCES, {
+            filter: (d) => {
+                return d.amount >= 50;
+            }
+        });
+        // Actions
+        if ((pick_targets.length && cur_action == ACTION_TRANSFER && cur_energy == 0)
+            || (pick_targets.length && cur_action == ACTION_TRANSFER && cur_energy < creep_cap && spawn_full && stored_energy == energy_total)
+            || (pick_targets.length && cur_action != ACTION_TRANSFER && cur_energy < creep_cap)
+            || (pick_targets.length && cur_action == ACTION_TRANSFER && cur_energy == 0 && spawn_full)
+            || (!pick_targets.length && cur_action == ACTION_TRANSFER && cur_energy == 0 && !spawn_full && stored_energy == 0)
+            || (!pick_targets.length && cur_action == ACTION_PICK && cur_energy == 0 && spawn_full)
+            || (!pick_targets.length && cur_action == ACTION_PICK && cur_energy == 0 && !spawn_full && stored_energy == 0)
+            || (!pick_targets.length && cur_action == ACTION_WITHDRAW && cur_energy == 0 && spawn_full)
+        ) {
             creep.memory.action = ACTION_PICK;
             creep.say('👌 PickUp');
-        }
-        else if (cur_action == ACTION_PICK && cur_energy == creep.carryCapacity) {
+        } else if ((pick_targets.length && cur_action == ACTION_TRANSFER && cur_energy < creep_cap && spawn_full && stored_energy == energy_total)
+            || (pick_targets.length && cur_action == ACTION_TRANSFER && cur_energy < creep_cap && !spawn_full)
+            || (pick_targets.length && cur_action == ACTION_TRANSFER && cur_energy == creep_cap)
+            || (pick_targets.length && cur_action != ACTION_TRANSFER && cur_energy == creep_cap)
+            || (!pick_targets.length && cur_energy != 0)
+        ) {
             creep.memory.action = ACTION_TRANSFER;
-            creep.say('🔋 Transfer');
+            creep.say('⚡ Trans')
+        } else if ((!pick_targets.length && cur_action != ACTION_WITHDRAW && cur_energy == 0 && !spawn_full && stored_energy != 0)
+            || (!pick_targets.length && cur_action == ACTION_WITHDRAW && cur_energy == 0 && !spawn_full)
+        ) {
+            creep.memory.action = ACTION_WITHDRAW;
+            creep.say('🔄 Withdraw')
         }
 
+        // Move
         if (creep.memory.action == ACTION_TRANSFER) {
             var targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    if((structure.structureType == structure.structureType == STRUCTURE_EXTENSION
-                    || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity) {
-                        return true;
-                    } else if(structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < 100000) {
-                        return true;
-                    }
-                    return false;
+                    return ((structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN)
+                        && structure.energy < structure.energyCapacity);
                 }
             });
             if (targets.length > 0) {
                 if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
                     creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+                return;
             }
-        }
-        else if(creep.memory.action == ACTION_PICK){
-            var targets = creep.room.find(FIND_DROPPED_RESOURCES, {
-                filter: (d) => {
-                    return d.amount >= 50;
+            if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
+                creep.moveTo(creep.room.storage, { visualizePathStyle: { stroke: '#ffffff' } });
+        } else if (creep.memory.action == ACTION_PICK) {
+            if (pick_targets.length) {
+                if (creep.pickup(pick_targets[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(pick_targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
                 }
-            });
-
-            if (targets.length) {
-                if (creep.pickup(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+            }
+        } else if (creep.memory.action == ACTION_WITHDRAW) {
+            if (creep.room.storage) {
+                if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.room.storage, { visualizePathStyle: { stroke: '#ffffff' } });
                 }
             }
         }

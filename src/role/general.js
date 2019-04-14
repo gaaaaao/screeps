@@ -6,8 +6,9 @@ var roleBuilder = require('role_builder');
 var roleUpgrader = require('role_upgrader');
 var roleHealer = require('role_healer');
 var roleTemp = require('role_temp')
-var ACTION_IDLE = 0
-var ACTION_RENEW = -1
+
+const {ACTION_IDLE} = require('settings');
+const {ACTION_RENEW} = require('settings');
 
 var roleGeneral = {
 

@@ -2,9 +2,9 @@
 
 var utils = require('utils');
 
-var ACTION_HARVEST = 1;
-var ACTION_UPGRADE = 2;
-var ACTION_TRANSFER = 3;
+const {ACTION_HARVEST} = require('settings');
+const {ACTION_UPGRADE} = require('settings');
+const {ACTION_TRANSFER} = require('settings');
 
 var roleHarvester = {
 
