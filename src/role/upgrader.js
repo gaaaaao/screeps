@@ -20,7 +20,7 @@ var roleUpgrader = {
             creep.say('⚡ upgrade');
         }
 
-        if(creep.memory.upgrading) {
+        if(creep.memory.action == ACTION_UPGRADE) {
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
             }
