@@ -4,9 +4,6 @@ var utils = {
     all_usable_energy: function() {
         return Game.spawns['Spawn1'].room.energyCapacityAvailable;
     },
-    room_name: function(){
-        return Object.keys(Game.rooms);
-    },
     cal_parts: function(){
         var total_usable_energy = Game.spawns['Spawn1'].room.energyCapacityAvailable;
         var parts_energy = 0;
@@ -22,8 +19,7 @@ var utils = {
         }
         return res;
     },
-    cursor_occupied: function(pos) {
-        var room_name = Object.keys(Game.rooms);
+    cursor_occupied: function(creep, pos) {
         var res = 0;
         for(var i = -1; i < 2; ++i)
         {
@@ -33,7 +29,7 @@ var utils = {
             {
                 if(pos.y+j < 0 || pos.y +j >= 50)
                     continue;
-                var things_on_pos = Game.rooms[room_name].lookAt(pos.x+i, pos.y+j);
+                var things_on_pos = creep.room.lookAt(pos.x+i, pos.y+j);
                 if(things_on_pos.length == 1 && things_on_pos[0].terrain === 'plain') {
                     res = 1;
                 }
@@ -64,7 +60,7 @@ var utils = {
         return res;
     },
     energy_cap: function(creep) {
-        return creep.room.energyCapacityAvailable * 10;
+        return creep.room.energyCapacityAvailable * 100;
     }
 }
 

@@ -1,6 +1,7 @@
 /// <reference path="../../ScreepsAutocomplete/.d.ts"/>
 
-var utils = require('utils');
+var {energy_cap} = require('utils');
+var {cursor_occupied} = require('utils');
 
 const {ACTION_HARVEST} = require('settings');
 const {ACTION_UPGRADE} = require('settings');
@@ -15,12 +16,13 @@ var roleHarvester = {
         // Action selection
         var cur_action = creep.memory.action;
         var cur_energy = creep.carry.energy;
+        var energy_total = energy_cap(creep);
         var fill_able_list = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 if((structure.structureType == structure.structureType == STRUCTURE_EXTENSION
-                || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity) {
+                || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_TOWER) && structure.energy == structure.energyCapacity) {
                     return true;
-                } else if(structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < 100000) {
+                } else if(structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < energy_total) {
                     return true;
                 }
                 return false;
@@ -59,7 +61,7 @@ var roleHarvester = {
                     return;
                 }
             }
-            sources.sort(function(a, b) {return utils.cursor_occupied(b.pos) - utils.cursor_occupied(a.pos)});
+            sources.sort(function(a, b) {return cursor_occupied(creep, b.pos) - cursor_occupied(creep, a.pos)});
             creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
         }
         else if (creep.memory.action == ACTION_TRANSFER) {
@@ -68,7 +70,7 @@ var roleHarvester = {
                     if((structure.structureType == structure.structureType == STRUCTURE_EXTENSION
                     || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity) {
                         return true;
-                    } else if(structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < 100000) {
+                    } else if(structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < energy_total) {
                         return true;
                     }
                     return false;

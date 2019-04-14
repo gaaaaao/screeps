@@ -51,14 +51,23 @@ module.exports.loop = function () {
     if (healers.length * 4 < harvesters.length && harvesters.length == Math.floor(MAX_HARS * 0.8) && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
         var newName = 'Hel' + Game.time;
         console.log('Spawning new healer: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(HEAL, CARRY, MOVE), newName, { memory: { role: 'healer' } });
+        Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(HEAL, MOVE, MOVE, MOVE, TOUGH), newName, { memory: { role: 'healer' } });
     }
 
+    var temps = _.filter(Game.creeps, (creep) => creep.memory.role == 'temp');
+    if (Game.time % 10 == 0)
+        console.log('Temp: ' + temps.length);
+    if (temps.length * 4 < harvesters.length && harvesters.length == Math.floor(MAX_HARS * 0.8) && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
+        var newName = 'Tmp' + Game.time;
+        console.log('Spawning new temp: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(CARRY, MOVE), newName, { memory: { role: 'temp' } });
+    }
+
+
+    // Creeps
     for (var name in Game.creeps) {
         roleGeneral.run(Game.creeps[name]);
-        var creep = Game.creeps[name];
     }
-
 
     // Structures
     for(var name in Game.structures)

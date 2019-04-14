@@ -36,7 +36,7 @@ var roleUpgrader = {
                     return;
                 }
             }
-            sources.sort(function(a, b) {return utils.cursor_occupied(b.pos) - utils.cursor_occupied(a.pos)});
+            sources.sort(function(a, b) {return utils.cursor_occupied(creep, b.pos) - utils.cursor_occupied(creep, a.pos)});
             creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
         }
     }

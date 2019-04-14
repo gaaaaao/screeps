@@ -19,7 +19,10 @@ var roleTemp = {
         var energy_total = energy_cap(creep);
         var pick_targets = creep.room.find(FIND_DROPPED_RESOURCES, {
             filter: (d) => {
-                return d.amount >= 50;
+                if(d.resourceType == RESOURCE_ENERGY && d.amount < 50) {
+                    return false;
+                }
+                return true;
             }
         });
         // Actions
@@ -62,8 +65,12 @@ var roleTemp = {
                     creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
                 return;
             }
-            if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
-                creep.moveTo(creep.room.storage, { visualizePathStyle: { stroke: '#ffffff' } });
+            for(const resourceType in creep.carry) {
+                if(creep.transfer(creep.room.storage, resourceType) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.room.storage, { visualizePathStyle: { stroke: '#ffffff' } });
+                    break;
+                }
+            }
         } else if (creep.memory.action == ACTION_PICK) {
             if (pick_targets.length) {
                 if (creep.pickup(pick_targets[0]) == ERR_NOT_IN_RANGE) {
