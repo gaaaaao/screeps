@@ -1,5 +1,4 @@
-var settings = require("settings");
-/// <reference path=`${settings.PROJECT_DIR}/ScreepsAutocomplete/.d.ts`/>
+/// <reference path="../../ScreepsAutocomplete/.d.ts"/>
 
 const {ACTION_WITHDRAW} = require('settings');
 const {ACTION_BUILD} = require('settings');
@@ -13,11 +12,10 @@ var roleBuilder = {
         var cur_action = creep.memory.action;
         var cur_energy = creep.carry.energy;
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-        if (cur_action != ACTION_WITHDRAW && cur_energy == 0 && harvesters.length > 3 && creep.room.energyAvailable > creep.room.energyCapacityAvailable / 2) {
+        if (cur_action != ACTION_WITHDRAW && cur_energy < creep.carryCapacity && harvesters.length > 3 && creep.room.energyAvailable > creep.room.energyCapacityAvailable / 2) {
             creep.memory.action = ACTION_WITHDRAW;
             creep.say('🔄 Withdraw');
-        }
-        else if (cur_action == ACTION_WITHDRAW && cur_energy == creep.carryCapacity) {
+        } else if (cur_action == ACTION_WITHDRAW && cur_energy == creep.carryCapacity) {
             creep.memory.action = ACTION_BUILD;
             creep.say('🚧 build');
         }
