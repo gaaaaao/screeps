@@ -51,7 +51,7 @@ module.exports.loop = function () {
     if (healers.length * 4 < harvesters.length && harvesters.length == Math.floor(MAX_HARS * 0.8) && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
         var newName = 'Hel' + Game.time;
         console.log('Spawning new healer: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(HEAL, MOVE, MOVE, MOVE, TOUGH), newName, { memory: { role: 'healer' } });
+        Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(TOUGH, HEAL, MOVE, MOVE, MOVE), newName, { memory: { role: 'healer' } });
     }
 
     var temps = _.filter(Game.creeps, (creep) => creep.memory.role == 'temp');

@@ -16,7 +16,7 @@ var roleHealer = {
         {
             var targets = creep.room.find(FIND_CREEPS, {
                 filter: (creep) => {
-                    return (creep.hits < creep.hitsMax);
+                    return (creep.my && creep.hits < creep.hitsMax);
                 }
             });
             if (targets.length) {
