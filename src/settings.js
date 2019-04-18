@@ -8,7 +8,8 @@ module.exports = Object.freeze({
     ACTION_WITHDRAW: 4,
     ACTION_BUILD: 5,
     ACTION_HEAL: 6,
-    ACTION_PICK: 7
+    ACTION_PICK: 7,
+    ACTION_ATTACK: 8
     // POST_MAX_SIZE : 40 , //MB
     // UPLOAD_MAX_FILE_SIZE: 40, //MB
     // PROJECT_DIR : __dirname

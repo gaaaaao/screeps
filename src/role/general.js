@@ -5,8 +5,8 @@ var roleHarvester = require('role_harvester');
 var roleBuilder = require('role_builder');
 var roleUpgrader = require('role_upgrader');
 var roleHealer = require('role_healer');
-var roleTemp = require('role_temp')
-
+var roleTemp = require('role_temp');
+var roleDefender = require('role_defender');
 const {ACTION_IDLE} = require('settings');
 const {ACTION_RENEW} = require('settings');
 
@@ -32,6 +32,8 @@ var roleGeneral = {
             roleHealer.run(creep);
         } else if(creep.memory.role == 'temp') {
             roleTemp.run(creep);
+        } else if(creep.memory.role == 'defender') {
+            roleDefender.run(creep);
         }
     }
 }

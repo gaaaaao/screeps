@@ -63,6 +63,14 @@ module.exports.loop = function () {
         Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(CARRY, MOVE), newName, { memory: { role: 'temp' } });
     }
 
+    var defenders = _.filter(Game.creeps, (creep) => creep.memory.role == 'defender');
+    if (Game.time % 10 == 0)
+        console.log('Defender: ' + defenders.length);
+    if (defenders.length * 4 < harvesters.length && harvesters.length == Math.floor(MAX_HARS * 0.8) && Game.spawns['Spawn1'].energy > Game.spawns['Spawn1'].energyCapacity * 0.8) {
+        var newName = 'Def' + Game.time;
+        console.log('Spawning new defender: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep(utils.cal_parts(TOUGH, TOUGH, MOVE, MOVE, MOVE, ATTACK, ATTACK), newName, { memory: { role: 'defender' } });
+    }
 
     // Creeps
     for (var name in Game.creeps) {
