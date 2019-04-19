@@ -1,5 +1,9 @@
 /// <reference path="../ScreepsAutocomplete/.d.ts"/>
 
+energy_cap = function(creep) {
+    return creep.room.energyCapacityAvailable * 100;
+}
+
 var utils = {
     all_usable_energy: function() {
         return Game.spawns['Spawn1'].room.energyCapacityAvailable;
@@ -59,8 +63,18 @@ var utils = {
         }
         return res;
     },
-    energy_cap: function(creep) {
-        return creep.room.energyCapacityAvailable * 100;
+    energy_cap,
+    fillable_list: function(creep, include_storage=true) {
+        var fillable_structures = creep.room.find(FIND_MY_STRUCTURES, {
+            filter: (structure) => {
+                return ((structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN
+                         || structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity)
+            }
+        });
+        if(include_storage && creep.room.storage.store[RESOURCE_ENERGY] < energy_cap(creep)){
+            fillable_structures.push(creep.room.storage);
+        }
+        return fillable_structures;
     }
 }
 

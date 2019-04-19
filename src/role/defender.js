@@ -12,10 +12,10 @@ var roleDefender = {
         // Action selection
         var closestHostile = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
         if(creep.memory.action != ACTION_ATTACK && closestHostile) {
-            creep.memory.action == ACTION_ATTACK;
+            creep.memory.action = ACTION_ATTACK;
             creep.say('⚔ SPARTA!')
         } else if(creep.memory.action == ACTION_ATTACK && !closestHostile) {
-            creep.memory.action == ACTION_IDLE;
+            creep.memory.action = ACTION_IDLE;
             creep.say('☮ PLUR')
         }
 
