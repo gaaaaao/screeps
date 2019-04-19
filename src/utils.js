@@ -71,7 +71,7 @@ var utils = {
                          || structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity)
             }
         });
-        if(include_storage && creep.room.storage.store[RESOURCE_ENERGY] < energy_cap(creep)){
+        if(include_storage && creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < energy_cap(creep)){
             fillable_structures.push(creep.room.storage);
         }
         return fillable_structures;
