@@ -1,6 +1,4 @@
 var settings = require("settings");
-/// <reference path=`${settings.PROJECT_DIR}/ScreepsAutocomplete/.d.ts`/>
-
 var roleHarvester = require('role_harvester');
 var roleBuilder = require('role_builder');
 var roleUpgrader = require('role_upgrader');

@@ -1,5 +1,3 @@
-/// <reference path="../../ScreepsAutocomplete/.d.ts"/>
-
 var {energy_cap} = require('utils');
 var {cursor_occupied} = require('utils');
 var {fillable_list} = require('utils');

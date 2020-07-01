@@ -1,6 +1,4 @@
 var settings = require("settings");
-/// <reference path=`${settings.PROJECT_DIR}/ScreepsAutocomplete/.d.ts`/>
-
 const {ACTION_HEAL} = require('settings');
 
 var roleHealer = {

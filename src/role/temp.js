@@ -1,5 +1,3 @@
-/// <reference path="../../ScreepsAutocomplete/.d.ts"/>
-
 const { ACTION_TRANSFER } = require('settings');
 const { ACTION_PICK } = require('settings');
 const { ACTION_WITHDRAW } = require('settings');

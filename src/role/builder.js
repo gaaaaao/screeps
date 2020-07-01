@@ -1,5 +1,3 @@
-/// <reference path="../../ScreepsAutocomplete/.d.ts"/>
-
 const {ACTION_WITHDRAW} = require('settings');
 const {ACTION_BUILD} = require('settings');
 

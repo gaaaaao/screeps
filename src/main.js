@@ -1,5 +1,3 @@
-/// <reference path="../ScreepsAutocomplete/.d.ts"/>
-
 var utils = require('utils');
 
 var roleGeneral = require('role_general');
@@ -16,7 +14,6 @@ module.exports.loop = function () {
             console.log('Clearing non-existing creep memory: ', name);
         }
     }
-
     // Creeps
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     if (Game.time % 10 == 0)

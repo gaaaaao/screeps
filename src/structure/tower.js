@@ -1,6 +1,4 @@
 var settings = require("settings");
-/// <reference path=`${settings.PROJECT_DIR}/ScreepsAutocomplete/.d.ts`/>
-
 var ACTION_ATTACK = 1;
 var ACTION_REPAIR = 2;
 

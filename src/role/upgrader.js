@@ -1,6 +1,4 @@
 var settings = require("settings");
-/// <reference path=`${settings.PROJECT_DIR}/ScreepsAutocomplete/.d.ts`/>
-
 var utils = require('utils');
 
 var ACTION_WITHDRAW = 1;

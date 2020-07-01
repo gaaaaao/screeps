@@ -1,5 +1,3 @@
-/// <reference path="../ScreepsAutocomplete/.d.ts"/>
-
 energy_cap = function(creep) {
     return creep.room.energyCapacityAvailable * 100;
 }

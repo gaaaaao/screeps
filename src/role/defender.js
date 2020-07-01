@@ -1,5 +1,3 @@
-/// <reference path="../../ScreepsAutocomplete/.d.ts"/>
-
 const {ACTION_ATTACK} = require('settings');
 const {ACTION_IDLE} = require('settings');
 
